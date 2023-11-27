@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.web.user.model.mapper.UserMapper">
+
+	<insert id="signup"
+		parameterType="com.ssafy.web.user.model.UserDto">
+		insert into user(userid, userpassword, username, email, age, rrn, pwdregisttime) 
+		values(#{userid}, #{userpassword}, #{username}, #{email}, #{age}, #{rrn}, #{pwdregisttime})
+	</insert>
+	
+	<select id="idCheck" parameterType="String" resultType="int">
+		select count(userid)
+		from user
+		where userid=#{userid}
+	</select>
+
+	<select id="getUserNameById" resultType="String"
+		parameterType="String">
+		select username
+		from user
+		where userid=#{userid}
+	</select>
+
+	<select id="login" resultType="com.ssafy.web.user.model.UserDto"
+		parameterType="com.ssafy.web.user.model.UserDto">
+		select username,pwdregisttime
+		from user
+		where userid=#{userid} and
+		userpassword=#{userpassword}
+	</select>
+	
+	<select id="getUserPassword" resultType="String"
+		parameterType="String">
+		select userpassword
+		from user
+		where userid=#{userid}
+	</select>
+	
+	<select id="checkEmail" resultType="com.ssafy.web.user.model.UserDto"
+		parameterType="com.ssafy.web.user.model.UserDto">
+		select userid
+		from user
+		where userid=#{userid} and email=#{email}
+	</select>
+	
+	<select id="loginByKakao" resultType="String"
+		parameterType="String">
+		select userid
+		from user
+		where email=#{email}
+	</select>
+	
+	<update id="changePassword"
+		parameterType="com.ssafy.web.user.model.UserDto">
+		update user set userpassword = #{userpassword} where
+		userid = #{userid}
+	</update>
+	
+	<update id="changeuserinfo"
+		parameterType="com.ssafy.web.user.model.UserDto">
+		update user set email = #{email} where
+		userid = #{userid}
+	</update>
+
+	<delete id="delete" parameterType="String">
+		delete
+		from user
+		where userid=#{userid}
+	</delete>
+
+	<insert id="saveToken" parameterType="com.ssafy.web.user.model.UserDto">
+		insert into
+		member_login (user_id, salt, access_token, refresh_token)
+		values (#{userid}, #{salt},#{access_token}, #{refresh_token})
+		on duplicate key
+		update
+		salt=#{salt},access_token=#{access_token},refresh_token=#{refresh_token}
+	</insert>
+	
+	<select id="userList" parameterType="String" resultType="String">
+		select userid
+		from user
+	</select>
+	
+
+</mapper>

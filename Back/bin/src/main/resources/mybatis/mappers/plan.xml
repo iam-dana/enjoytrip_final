@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.web.plan.model.mapper.PlanMapper">
+
+	<insert id="planRegist" parameterType="com.ssafy.web.plan.model.PlanVo">
+		insert into plans (title, userid, content, contentid) values (#{title}, #{userid}, #{content}, #{contentid})
+	</insert>
+
+	<select id="planList" resultType="com.ssafy.web.plan.model.PlanVo">
+		select *
+		from plans
+	</select>
+	
+	<select id="planView" parameterType="String" resultType="com.ssafy.web.plan.model.PlanVo">
+		select * 
+		from plans 
+		where contentid=#{contentid}
+	</select>
+	
+	<delete id="delete" parameterType="String">
+		delete 
+		from plans 
+		where contentid=#{contentid}
+	</delete>
+	
+	<update id="planUpdate" parameterType="com.ssafy.web.plan.model.PlanVo">
+		update plans 
+		set title = #{title}, content = #{content} 
+		where contentid = #{contentid}
+	</update>
+
+</mapper>

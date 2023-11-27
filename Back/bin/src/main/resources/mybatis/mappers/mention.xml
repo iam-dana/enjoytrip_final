@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.web.mention.model.mapper.MentionMapper">
+
+	<insert id="mentionRegist" parameterType="com.ssafy.web.mention.model.MentionVo">
+		insert into mentions (contentid, userid, isChecked) values (#{contentid}, #{userid}, #{isChecked})
+	</insert>
+
+	<select id="mentionList" parameterType="String" resultType="com.ssafy.web.mention.model.MentionVo">
+		select mentions.contentid, plans.userid, mentions.isChecked, plans.title
+		from mentions, plans
+		where mentions.userid = #{userid}
+		and mentions.contentid = plans.contentid
+	</select>
+	
+	<select id="mentionView" parameterType="String" resultType="String">
+		select userid
+		from mentions
+		where contentid = #{contentid}
+	</select>
+	
+	<update id="mentionUpdate" parameterType="com.ssafy.web.mention.model.MentionVo">
+		update mentions 
+		set isChecked = #{isChecked}
+		where contentid = #{contentid}
+		and userid = #{userid}
+	</update>
+	
+	<delete id="mentionDelete" parameterType="String">
+		delete 
+		from mentions 
+		where contentid=#{contentid}
+	</delete>
+
+</mapper>
